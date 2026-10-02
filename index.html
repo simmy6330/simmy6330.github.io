@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F3F5F7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141519">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="行前准备">
+<title>行前准备</title>
+<style>
+:root{
+  --bg:#F3F5F7;
+  --card:#FFFFFF;
+  --ink:#17191C;
+  --muted:#646B76;
+  --border:#E3E6EA;
+  --border-strong:#C3C9D1;
+  --accent:#0B8F67;
+  --accent-fg:#FFFFFF;
+  --accent-soft:rgba(11,143,103,.11);
+  --accent-ink:#0A6B4E;
+  --amber:#A85B07;
+  --amber-soft:rgba(196,124,20,.13);
+  --danger:#D03C3C;
+  --shadow:0 1px 2px rgba(16,24,40,.05),0 10px 30px rgba(16,24,40,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141519;
+    --card:#1E2025;
+    --ink:#F2F3F5;
+    --muted:#9AA1AB;
+    --border:#2A2D33;
+    --border-strong:#40444D;
+    --accent:#2FBE8F;
+    --accent-fg:#08281E;
+    --accent-soft:rgba(47,190,143,.15);
+    --accent-ink:#7EE0BC;
+    --amber:#F0A93B;
+    --amber-soft:rgba(240,169,59,.14);
+    --danger:#F07B6A;
+    --shadow:0 1px 2px rgba(0,0,0,.25),0 12px 32px rgba(0,0,0,.28);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Segoe UI","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--ink);
+  min-height:100dvh;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;user-select:none;-webkit-user-select:none}
+input,select{font:inherit;color:var(--ink)}
+::selection{background:var(--accent-soft)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+.app{
+  max-width:480px;margin:0 auto;
+  padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 28px);
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-icon{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:var(--accent-soft);color:var(--accent-ink);
+  display:grid;place-items:center;
+}
+.brand-icon svg{width:22px;height:22px}
+.brand h1{font-size:21px;font-weight:700;letter-spacing:0;line-height:1.2}
+.brand .sub{font-size:13px;color:var(--muted);margin-top:3px;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.topbar-actions{display:flex;gap:8px;flex-shrink:0}
+.icon-btn{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  border:1px solid var(--border);background:var(--card);color:var(--muted);
+  display:grid;place-items:center;box-shadow:var(--shadow);
+  transition:transform .12s ease,color .12s ease;
+}
+.icon-btn:active{transform:scale(.92);color:var(--ink)}
+.icon-btn svg{width:18px;height:18px}
+
+/* ---------- 行程卡片 ---------- */
+.trip-card{
+  display:flex;align-items:center;gap:16px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);
+}
+.ring-wrap{position:relative;width:84px;height:84px;flex-shrink:0}
+.ring{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:7}
+.ring-track{stroke:var(--border)}
+.ring-bar{stroke:var(--accent);stroke-linecap:round;stroke-dasharray:226.2;stroke-dashoffset:226.2;transition:stroke-dashoffset .4s ease}
+.ring-center{position:absolute;inset:0;display:grid;place-items:center;font-size:17px;font-weight:700;letter-spacing:0}
+.trip-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.field{position:relative;display:block}
+.field svg{
+  position:absolute;left:11px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--muted);pointer-events:none;
+}
+.field input{
+  width:100%;font-size:16px;
+  padding:10px 12px 10px 35px;
+  border:1px solid var(--border);border-radius:8px;background:var(--bg);
+}
+.field input::placeholder{color:var(--muted)}
+.countdown{font-size:13px;color:var(--muted);letter-spacing:0;padding-left:2px}
+.countdown.soon{color:var(--amber);font-weight:600}
+
+/* ---------- 添加一行 ---------- */
+.add-row{
+  display:flex;align-items:center;gap:8px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:9px;margin-bottom:12px;box-shadow:var(--shadow);
+}
+.add-row input{
+  flex:1;min-width:0;font-size:16px;
+  padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);
+}
+.add-row input::placeholder{color:var(--muted)}
+.add-row input.invalid{border-color:var(--danger);animation:shake .3s ease}
+.add-row select{
+  font-size:14px;padding:10px 8px;border:1px solid var(--border);
+  border-radius:8px;background:var(--card);color:var(--muted);max-width:112px;flex-shrink:0;
+}
+.add-btn{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:var(--accent);color:var(--accent-fg);
+  display:grid;place-items:center;
+  transition:transform .12s ease,filter .12s ease;
+}
+.add-btn:active{transform:scale(.9);filter:brightness(1.08)}
+.add-btn svg{width:19px;height:19px}
+
+/* ---------- 分类标签 ---------- */
+.tabs{
+  position:sticky;top:env(safe-area-inset-top);z-index:20;
+  display:flex;gap:8px;overflow-x:auto;
+  padding:10px 2px;margin:0 -4px 10px;
+  background:color-mix(in srgb,var(--bg) 86%,transparent);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex-shrink:0;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--border);background:var(--card);
+  font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0;
+  display:flex;align-items:center;gap:6px;
+  transition:all .15s ease;
+}
+.tab.active{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tab-dot{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+  background:var(--danger);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 16%,transparent);
+  transition:background .2s ease,box-shadow .2s ease;
+}
+.tab-dot.done{
+  background:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
+}
+.tab-add{
+  flex-shrink:0;padding:8px 11px;border-radius:999px;
+  border:1px dashed var(--border-strong);background:var(--card);
+  color:var(--muted);display:flex;align-items:center;
+  transition:all .15s ease;
+}
+.tab-add svg{width:14px;height:14px}
+.tab-add:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ---------- 就绪提示 ---------- */
+.ready{
+  display:flex;align-items:center;gap:10px;
+  background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);
+  color:var(--accent-ink);border-radius:8px;
+  padding:12px 14px;margin-bottom:12px;font-size:14px;font-weight:600;letter-spacing:0;
+  animation:rise .3s ease;
+}
+.ready svg{width:18px;height:18px;flex-shrink:0}
+.ready[hidden]{display:none}
+
+/* ---------- 清单 ---------- */
+.group{margin-bottom:18px}
+.group-head{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 10px}
+.group-head h2{font-size:15px;font-weight:700;letter-spacing:0}
+.group-head .count{font-size:12.5px;color:var(--muted);letter-spacing:0;font-variant-numeric:tabular-nums}
+.group-right{display:flex;align-items:center;gap:6px}
+.group-acts{display:flex;gap:4px}
+.group-acts .row-btn{width:28px;height:28px}
+.group-acts .row-btn svg{width:14px;height:14px}
+.group-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;box-shadow:var(--shadow);
+}
+.item{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 12px 13px 14px;position:relative;
+}
+.item + .item{border-top:1px solid var(--border)}
+.item:hover .item-t{color:var(--ink)}
+.cb{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  border:2px solid var(--border-strong);
+  display:grid;place-items:center;color:transparent;
+  transition:background .16s ease,border-color .16s ease,transform .12s ease,color .16s ease;
+}
+.cb:active{transform:scale(.85)}
+.cb svg{width:14px;height:14px;opacity:0;transform:scale(.4);transition:all .16s ease}
+.item.done .cb{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.item.done .cb svg{opacity:1;transform:scale(1)}
+.item-t{
+  flex:1;font-size:16px;line-height:1.45;letter-spacing:0;
+  transition:color .16s ease;word-break:break-word;
+}
+.item.done .item-t{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.item.flash{animation:flash 1s ease}
+.row-btn{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  color:var(--muted);display:grid;place-items:center;
+  transition:color .12s ease,background .12s ease,transform .12s ease;
+}
+.row-btn:active{transform:scale(.88)}
+.row-btn svg{width:15px;height:15px}
+.row-btn.edit:hover{color:var(--accent);background:var(--accent-soft)}
+.row-btn.del:hover{color:var(--danger);background:var(--accent-soft)}
+.edit-input{
+  flex:1;min-width:0;font-size:16px;
+  padding:8px 10px;border:1px solid var(--border-strong);
+  border-radius:8px;background:var(--bg);
+}
+.edit-input.invalid{border-color:var(--danger);animation:shake .3s ease}
+.empty{
+  background:var(--card);border:1px dashed var(--border-strong);border-radius:8px;
+  padding:26px 18px;text-align:center;color:var(--muted);
+  font-size:14px;line-height:1.6;
+}
+
+.summary{text-align:center;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:4px;font-variant-numeric:tabular-nums}
+.summary b{color:var(--ink);font-weight:700}
+
+/* ---------- 弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px}
+.modal[hidden]{display:none}
+.modal-overlay{position:absolute;inset:0;background:rgba(10,12,14,.45);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.dialog{
+  position:relative;width:min(100%,340px);
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:22px 20px 18px;box-shadow:var(--shadow);
+  animation:pop .22s ease;
+}
+.dialog h3{font-size:17px;font-weight:700;letter-spacing:0;margin-bottom:8px}
+.dialog p{font-size:14px;line-height:1.6;color:var(--muted);letter-spacing:0;margin-bottom:18px}
+.dialog-input{
+  width:100%;font-size:16px;margin:0 0 16px;
+  padding:10px 12px;border:1px solid var(--border-strong);
+  border-radius:8px;background:var(--bg);
+}
+.dialog-input.invalid{border-color:var(--danger);animation:shake .3s ease}
+.dialog-actions{display:flex;justify-content:flex-end;gap:10px}
+.btn{padding:10px 16px;border-radius:8px;font-size:15px;font-weight:600;letter-spacing:0}
+.btn-ghost{color:var(--muted);border:1px solid var(--border)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:active{filter:brightness(.92)}
+.btn-accent{background:var(--accent);color:var(--accent-fg)}
+.btn-accent:active{filter:brightness(.95)}
+
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes flash{0%{background:var(--accent-soft)}100%{background:transparent}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon i" data-icon="plane" aria-hidden="true"></span>
+      <div>
+        <h1>行前准备</h1>
+        <p class="sub" id="tripSub">出发前清单</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="uncheckBtn" type="button" aria-label="一键取消勾选" title="一键取消勾选">
+        <span class="i" data-icon="eraser" aria-hidden="true"></span>
+      </button>
+      <button class="icon-btn" id="resetBtn" type="button" aria-label="开始新旅程" title="开始新旅程">
+        <span class="i" data-icon="rotate" aria-hidden="true"></span>
+      </button>
+      <button class="icon-btn" id="restoreBtn" type="button" aria-label="恢复默认模板" title="恢复默认模板">
+        <span class="i" data-icon="history" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="trip-card" aria-label="行程信息">
+    <div class="ring-wrap" aria-hidden="true">
+      <svg class="ring" width="84" height="84" viewBox="0 0 84 84">
+        <circle class="ring-track" cx="42" cy="42" r="36"></circle>
+        <circle class="ring-bar" id="ringBar" cx="42" cy="42" r="36"></circle>
+      </svg>
+      <div class="ring-center" id="ringPct">0%</div>
+    </div>
+    <div class="trip-info">
+      <label class="field">
+        <span class="i" data-icon="pin" aria-hidden="true"></span>
+        <input id="tripName" type="text" maxlength="24" placeholder="目的地 / 行程名称" autocomplete="off">
+      </label>
+      <label class="field">
+        <span class="i" data-icon="calendar" aria-hidden="true"></span>
+        <input id="tripDate" type="date">
+      </label>
+      <p class="countdown" id="countdown">选择出发日期</p>
+    </div>
+  </section>
+
+  <section class="add-row" aria-label="添加物品">
+    <input id="newItem" type="text" maxlength="40" placeholder="添加物品或待办…" autocomplete="off" enterkeyhint="done">
+    <select id="newItemCat" aria-label="分类"></select>
+    <button class="add-btn" id="addBtn" type="button" aria-label="添加" title="添加">
+      <span class="i" data-icon="plus" aria-hidden="true"></span>
+    </button>
+  </section>
+
+  <nav class="tabs" id="tabs" aria-label="物品分类"></nav>
+
+  <div class="ready" id="readyBanner" hidden>
+    <span class="i" data-icon="checkCircle" aria-hidden="true"></span>
+    一切就绪，一路顺风
+  </div>
+
+  <main id="list"></main>
+
+  <p class="summary" id="summary">已备 <b>0</b> / 0 项</p>
+</div>
+
+<div class="modal" id="confirmModal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-overlay" data-close></div>
+  <div class="dialog">
+    <h3 id="modalTitle"></h3>
+    <p id="modalText"></p>
+    <input id="modalInput" class="dialog-input" type="text" maxlength="12" hidden>
+    <div class="dialog-actions">
+      <button class="btn btn-ghost" type="button" data-close>取消</button>
+      <button class="btn btn-danger" id="modalConfirm" type="button">确定</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ---------- 图标（Lucide 路径） ---------- */
+const SVG = (paths) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+const ICON = {
+  plane: SVG('<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>'),
+  pin: SVG('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
+  calendar: SVG('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
+  plus: SVG('<path d="M5 12h14M12 5v14"/>'),
+  rotate: SVG('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>'),
+  check: SVG('<path d="M20 6 9 17l-5-5"/>'),
+  x: SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
+  checkCircle: SVG('<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/><path d="m9 12 2 2 4-4"/>'),
+  pencil: SVG('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
+  eraser: SVG('<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/>'),
+  trash: SVG('<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>'),
+  history: SVG('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>'),
+};
+document.querySelectorAll(".i[data-icon]").forEach(el => { el.innerHTML = ICON[el.dataset.icon] || ""; });
+
+/* ---------- 数据 ---------- */
+const KEY = "trip-prep-v3";
+const OLD_KEY = "trip-prep-v2";
+const DEFAULT_CATS = [
+  { id:"must",  name:"💰 必备" },
+  { id:"tech",  name:"🔦 电子用品" },
+  { id:"daily", name:"🛍️ 日用品" },
+  { id:"care",  name:"🧴 洗漱护肤" },
+  { id:"wear",  name:"👕 衣物穿搭" },
+  { id:"med",   name:"💊 健康药品" },
+  { id:"fly",   name:"🧳 旅途用品" },
+];
+const DEFAULT_ITEMS = [
+  { id:"e01", cat:"must", t:"身份证 / 护照" },
+  { id:"e02", cat:"must", t:"签证（如需）" },
+  { id:"e03", cat:"must", t:"机票 / 车票订单" },
+  { id:"e04", cat:"must", t:"酒店预订单" },
+  { id:"e05", cat:"must", t:"银行卡 + 信用卡" },
+  { id:"e06", cat:"must", t:"少量现金（如需外币）" },
+  { id:"e07", cat:"must", t:"驾照（如需租车）" },
+  { id:"e08", cat:"must", t:"门票电子版" },
+  { id:"e09", cat:"must", t:"旅行险" },
+  { id:"g01", cat:"tech", t:"手机充电器（充电头 + 数据线）" },
+  { id:"g02", cat:"tech", t:"充电宝（随身携带）" },
+  { id:"g03", cat:"tech", t:"耳机" },
+  { id:"g04", cat:"tech", t:"相机 + 存储卡（充电线）" },
+  { id:"g05", cat:"tech", t:"转换插头（出境）" },
+  { id:"g06", cat:"tech", t:"电话卡&卡针（如需出境）" },
+  { id:"n01", cat:"daily", t:"随行杯（保温杯）" },
+  { id:"n02", cat:"daily", t:"衣物收纳袋" },
+  { id:"n03", cat:"daily", t:"便捷烧水壶" },
+  { id:"n04", cat:"daily", t:"洗脸巾" },
+  { id:"n05", cat:"daily", t:"湿巾&酒精湿巾" },
+  { id:"n06", cat:"daily", t:"湿厕纸" },
+  { id:"n07", cat:"daily", t:"纸巾（抽纸+便携小包纸）" },
+  { id:"n08", cat:"daily", t:"一次性浴巾" },
+  { id:"n09", cat:"daily", t:"雨伞" },
+  { id:"n10", cat:"daily", t:"指甲钳" },
+  { id:"s01", cat:"care", t:"牙膏+牙刷" },
+  { id:"s02", cat:"care", t:"洗面奶+护肤（水、精华、面霜、眼霜）" },
+  { id:"s03", cat:"care", t:"防晒霜" },
+  { id:"s04", cat:"care", t:"眼唇卸妆液、卸妆油、卸妆棉" },
+  { id:"s05", cat:"care", t:"面膜" },
+  { id:"s06", cat:"care", t:"沐浴露、洗发露、护发素（旅行装）" },
+  { id:"s07", cat:"care", t:"护发精油" },
+  { id:"s08", cat:"care", t:"化妆（妆前、粉底、气垫、定妆喷雾、眉笔、睫毛夹、睫毛膏、眼影、腮红、阴影、高光）" },
+  { id:"s09", cat:"care", t:"梳子" },
+  { id:"s10", cat:"care", t:"便携冲牙器" },
+  { id:"k01", cat:"wear", t:"换洗衣物（按天数）" },
+  { id:"k02", cat:"wear", t:"外套 / 雨具" },
+  { id:"k03", cat:"wear", t:"舒适好走的鞋" },
+  { id:"k04", cat:"wear", t:"睡衣" },
+  { id:"k05", cat:"wear", t:"一次性内衣裤、袜子" },
+  { id:"k06", cat:"wear", t:"泳装（如需）" },
+  { id:"p01", cat:"med", t:"常用药：感冒 / 肠胃 / 创可贴" },
+  { id:"p02", cat:"med", t:"处方药（足量）" },
+  { id:"p03", cat:"med", t:"晕车药（如需）" },
+  { id:"p04", cat:"med", t:"口罩" },
+  { id:"j01", cat:"fly", t:"耳塞+眼罩" },
+  { id:"j02", cat:"fly", t:"脖枕" },
+  { id:"j03", cat:"fly", t:"一次性拖鞋" },
+  { id:"j04", cat:"fly", t:"随身洗漱用品" },
+  { id:"j05", cat:"fly", t:"签字笔" },
+  { id:"j06", cat:"fly", t:"简易脚垫（如长途飞行）" },
+];
+
+const cloneCats = () => DEFAULT_CATS.map(c => ({ id: c.id, name: c.name }));
+const cloneItems = () => DEFAULT_ITEMS.map(i => ({ id: i.id, cat: i.cat, t: i.t }));
+const FRESH = () => ({ trip:"", date:"", checked:{}, cats: cloneCats(), items: cloneItems() });
+
+function migrateV2() {
+  try {
+    const s = JSON.parse(localStorage.getItem(OLD_KEY));
+    if (!s || typeof s !== "object") return null;
+    const items = DEFAULT_ITEMS
+      .filter(it => !(Array.isArray(s.hidden) && s.hidden.includes(it.id)))
+      .map(it => {
+        const o = (s.overrides && typeof s.overrides[it.id] === "string") ? s.overrides[it.id].trim() : "";
+        return { id: it.id, cat: it.cat, t: o || it.t };
+      });
+    if (Array.isArray(s.custom)) {
+      s.custom.forEach(c => {
+        if (c && c.id && c.cat && c.t && DEFAULT_CATS.some(x => x.id === c.cat)) {
+          items.push({ id: c.id, cat: c.cat, t: c.t });
+        }
+      });
+    }
+    const checked = {};
+    if (s.checked && typeof s.checked === "object") {
+      Object.keys(s.checked).forEach(k => {
+        if (s.checked[k] === true && items.some(i => i.id === k)) checked[k] = true;
+      });
+    }
+    return {
+      trip: typeof s.trip === "string" ? s.trip : "",
+      date: typeof s.date === "string" ? s.date : "",
+      checked,
+      cats: cloneCats(),
+      items,
+    };
+  } catch { return null; }
+}
+function load() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && typeof s === "object" && Array.isArray(s.cats) && Array.isArray(s.items)) {
+      const cats = s.cats.filter(c => c && typeof c.id === "string" && typeof c.name === "string" && c.name.trim());
+      const catIds = cats.map(c => c.id);
+      const items = s.items
+        .filter(i => i && typeof i.id === "string" && typeof i.t === "string" && i.t.trim() && catIds.includes(i.cat))
+        .map(i => ({ id: i.id, cat: i.cat, t: i.t }));
+      const checked = {};
+      if (s.checked && typeof s.checked === "object") {
+        Object.keys(s.checked).forEach(k => {
+          if (s.checked[k] === true && items.some(i => i.id === k)) checked[k] = true;
+        });
+      }
+      return {
+        trip: typeof s.trip === "string" ? s.trip : "",
+        date: typeof s.date === "string" ? s.date : "",
+        checked,
+        cats,
+        items,
+      };
+    }
+  } catch {}
+  return migrateV2() || FRESH();
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+}
+
+let state = load();
+let activeCat = "all";
+
+/* ---------- 工具 ---------- */
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+};
+const allItems = () => state.items;
+const isChecked = (id) => state.checked[id] === true;
+const textOf = (it) => it.t;
+const catName = (id) => (state.cats.find(c => c.id === id) || { name:id }).name;
+
+function daysUntil(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  const t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((d - t) / 864e5);
+}
+function countdownText() {
+  if (!state.date) return null;
+  const n = daysUntil(state.date);
+  if (n > 1) return "还有 " + n + " 天出发";
+  if (n === 1) return "明天出发";
+  if (n === 0) return "今天出发";
+  return "已出发 " + (-n) + " 天";
+}
+
+/* ---------- 渲染 ---------- */
+const tabsEl = $("tabs"), listEl = $("list");
+
+function buildTabs() {
+  tabsEl.innerHTML = "";
+  tabsEl.append(tabButton("all", "全部"));
+  state.cats.forEach(c => tabsEl.append(tabButton(c.id, c.name)));
+  const add = el("button", "tab-add");
+  add.type = "button";
+  add.setAttribute("aria-label", "添加分类");
+  add.title = "添加分类";
+  add.innerHTML = ICON.plus;
+  tabsEl.append(add);
+  updateTabStatus();
+}
+
+function tabButton(catId, name) {
+  const b = el("button", "tab" + (activeCat === catId ? " active" : ""));
+  b.type = "button";
+  b.dataset.cat = catId;
+  const dot = el("span", "tab-dot");
+  dot.setAttribute("aria-hidden", "true");
+  b.append(dot, el("span", null, name));
+  return b;
+}
+
+function updateTabStatus() {
+  tabsEl.querySelectorAll(".tab").forEach(tab => {
+    const cat = tab.dataset.cat;
+    const items = cat === "all" ? state.items : state.items.filter(i => i.cat === cat);
+    const complete = items.length > 0 && items.every(i => isChecked(i.id));
+    const dot = tab.querySelector(".tab-dot");
+    if (dot) dot.classList.toggle("done", complete);
+    const base = cat === "all" ? "全部" : catName(cat);
+    tab.setAttribute("aria-label", base + (complete ? "（已完成）" : "（未完成）"));
+  });
+}
+
+function buildCatSelect() {
+  const sel = $("newItemCat");
+  sel.innerHTML = "";
+  state.cats.forEach(c => {
+    const o = el("option", null, c.name);
+    o.value = c.id;
+    sel.append(o);
+  });
+}
+
+function itemRow(it) {
+  const row = el("div", "item" + (isChecked(it.id) ? " done" : ""));
+  row.dataset.id = it.id;
+  const cb = el("button", "cb");
+  cb.type = "button";
+  cb.setAttribute("role", "checkbox");
+  cb.setAttribute("aria-checked", isChecked(it.id) ? "true" : "false");
+  cb.setAttribute("aria-label", "标记 " + textOf(it));
+  cb.dataset.id = it.id;
+  cb.innerHTML = ICON.check;
+  const label = el("span", "item-t", textOf(it));
+  const edit = el("button", "row-btn edit");
+  edit.type = "button";
+  edit.setAttribute("aria-label", "编辑 " + textOf(it));
+  edit.dataset.id = it.id;
+  edit.innerHTML = ICON.pencil;
+  const del = el("button", "row-btn del");
+  del.type = "button";
+  del.setAttribute("aria-label", "删除 " + textOf(it));
+  del.dataset.id = it.id;
+  del.innerHTML = ICON.x;
+  row.append(cb, label, edit, del);
+  return row;
+}
+
+function render() {
+  listEl.innerHTML = "";
+  const cats = activeCat === "all" ? state.cats : state.cats.filter(c => c.id === activeCat);
+  cats.forEach(c => {
+    const items = state.items.filter(i => i.cat === c.id);
+    if (!items.length) return;
+    const g = el("section", "group");
+    g.dataset.cat = c.id;
+    const head = el("div", "group-head");
+    const done = items.filter(i => isChecked(i.id)).length;
+    const right = el("div", "group-right");
+    right.append(el("span", "count", done + " / " + items.length));
+    const acts = el("div", "group-acts");
+    const ren = el("button", "row-btn cat-edit");
+    ren.type = "button";
+    ren.dataset.cat = c.id;
+    ren.setAttribute("aria-label", "重命名 " + c.name);
+    ren.innerHTML = ICON.pencil;
+    const catDel = el("button", "row-btn cat-del");
+    catDel.type = "button";
+    catDel.dataset.cat = c.id;
+    catDel.setAttribute("aria-label", "删除 " + c.name);
+    catDel.innerHTML = ICON.trash;
+    acts.append(ren, catDel);
+    right.append(acts);
+    head.append(el("h2", null, c.name), right);
+    const card = el("div", "group-card");
+    items.forEach(it => card.append(itemRow(it)));
+    g.append(head, card);
+    listEl.append(g);
+  });
+  if (!listEl.children.length) {
+    listEl.append(el("div", "empty", "没有可显示的条目。可先在上方添加分类，或在下方输入框添加条目。"));
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const items = state.items;
+  const total = items.length;
+  const done = items.filter(i => isChecked(i.id)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  $("ringBar").style.strokeDashoffset = String(226.2 * (1 - (total ? done / total : 0)));
+  $("ringPct").textContent = pct + "%";
+  $("summary").innerHTML = "已备 <b>" + done + "</b> / " + total + " 项";
+  $("readyBanner").hidden = !(total > 0 && done === total);
+
+  const cd = countdownText();
+  const cdEl = $("countdown");
+  if (cd) {
+    cdEl.textContent = cd + (state.trip.trim() ? " · " + state.trip.trim() : "");
+    const n = daysUntil(state.date);
+    cdEl.classList.toggle("soon", n >= 0 && n <= 3);
+  } else {
+    cdEl.textContent = "选择出发日期";
+    cdEl.classList.remove("soon");
+  }
+  const sub = state.trip.trim() ? (cd ? state.trip.trim() + " · " + cd : state.trip.trim()) : (cd || "出发前清单");
+  $("tripSub").textContent = sub;
+  updateTabStatus();
+}
+
+/* ---------- 交互 ---------- */
+tabsEl.addEventListener("click", (e) => {
+  if (e.target.closest(".tab-add")) { addCategory(); return; }
+  const btn = e.target.closest(".tab");
+  if (!btn) return;
+  activeCat = btn.dataset.cat;
+  buildTabs();
+  render();
+  if (activeCat !== "all") $("newItemCat").value = activeCat;
+});
+
+listEl.addEventListener("click", (e) => {
+  const catEdit = e.target.closest(".cat-edit");
+  if (catEdit) { renameCategory(catEdit.dataset.cat); return; }
+  const catDelBtn = e.target.closest(".cat-del");
+  if (catDelBtn) { askDeleteCategory(catDelBtn.dataset.cat); return; }
+  const saveBtn = e.target.closest(".save");
+  if (saveBtn) { commitEdit(saveBtn.closest(".item")); return; }
+  const cancel = e.target.closest(".cancel");
+  if (cancel) { render(); return; }
+  const edit = e.target.closest(".edit");
+  if (edit) { startEdit(edit.closest(".item")); return; }
+  const del = e.target.closest(".del");
+  if (del) { deleteItem(del.dataset.id); return; }
+  const cb = e.target.closest(".cb");
+  if (cb) {
+    const id = cb.dataset.id;
+    const v = !isChecked(id);
+    if (v) state.checked[id] = true; else delete state.checked[id];
+    save();
+    const row = cb.closest(".item");
+    row.classList.toggle("done", v);
+    cb.setAttribute("aria-checked", v ? "true" : "false");
+    const g = row.closest(".group");
+    if (g) {
+      const items = state.items.filter(i => i.cat === g.dataset.cat);
+      const done = items.filter(i => isChecked(i.id)).length;
+      g.querySelector(".count").textContent = done + " / " + items.length;
+    }
+    updateProgress();
+    return;
+  }
+});
+
+function startEdit(row) {
+  const it = allItems().find(i => i.id === row.dataset.id);
+  if (!it) return;
+  row.classList.add("editing");
+  row.innerHTML = "";
+  const input = el("input", "edit-input");
+  input.type = "text";
+  input.maxLength = 60;
+  input.value = textOf(it);
+  input.setAttribute("aria-label", "编辑条目");
+  const ok = el("button", "row-btn save");
+  ok.type = "button";
+  ok.setAttribute("aria-label", "保存");
+  ok.innerHTML = ICON.check;
+  const no = el("button", "row-btn cancel");
+  no.type = "button";
+  no.setAttribute("aria-label", "取消编辑");
+  no.innerHTML = ICON.x;
+  row.append(input, ok, no);
+  input.focus();
+  input.setSelectionRange(input.value.length, input.value.length);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") commitEdit(row);
+    if (e.key === "Escape") render();
+  });
+}
+
+function commitEdit(row) {
+  const input = row.querySelector(".edit-input");
+  const it = state.items.find(i => i.id === row.dataset.id);
+  if (!input || !it) return;
+  const v = input.value.trim();
+  if (!v) {
+    input.classList.remove("invalid");
+    void input.offsetWidth;
+    input.classList.add("invalid");
+    input.focus();
+    return;
+  }
+  it.t = v;
+  save();
+  render();
+}
+
+function deleteItem(id) {
+  state.items = state.items.filter(i => i.id !== id);
+  delete state.checked[id];
+  save();
+  render();
+}
+
+function addItem() {
+  const input = $("newItem");
+  const text = input.value.trim();
+  if (!text) {
+    input.classList.remove("invalid");
+    void input.offsetWidth;
+    input.classList.add("invalid");
+    input.focus();
+    return;
+  }
+  const cat = activeCat !== "all" ? activeCat : $("newItemCat").value;
+  const item = { id: "c" + Date.now().toString(36), cat, t: text };
+  state.items.push(item);
+  save();
+  input.value = "";
+  activeCat = cat;
+  buildTabs();
+  render();
+  const row = listEl.querySelector('.cb[data-id="' + item.id + '"]').closest(".item");
+  row.classList.add("flash");
+  row.scrollIntoView({ block:"nearest", behavior:"smooth" });
+}
+$("addBtn").addEventListener("click", addItem);
+$("newItem").addEventListener("keydown", (e) => { if (e.key === "Enter") addItem(); });
+
+$("tripName").addEventListener("input", (e) => {
+  state.trip = e.target.value;
+  save();
+  updateProgress();
+});
+$("tripDate").addEventListener("change", (e) => {
+  state.date = e.target.value;
+  save();
+  updateProgress();
+});
+
+const modal = $("confirmModal");
+let confirmAction = null;
+function confirmDialog(opts) {
+  $("modalTitle").textContent = opts.title;
+  const textEl = $("modalText");
+  textEl.textContent = opts.body || "";
+  textEl.hidden = !opts.body;
+  const input = $("modalInput");
+  if (opts.input) {
+    input.hidden = false;
+    input.value = opts.inputValue || "";
+    input.maxLength = opts.maxLength || 12;
+    input.placeholder = opts.inputPlaceholder || "";
+  } else {
+    input.hidden = true;
+  }
+  const btn = $("modalConfirm");
+  btn.textContent = opts.confirmText;
+  btn.className = "btn " + (opts.danger ? "btn-danger" : "btn-accent");
+  confirmAction = opts.onConfirm;
+  modal.hidden = false;
+  (opts.input ? input : btn).focus();
+}
+function closeModal() { modal.hidden = true; confirmAction = null; }
+modal.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) closeModal(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
+function tryConfirm() {
+  const input = $("modalInput");
+  const action = confirmAction;
+  if (!input.hidden) {
+    const v = input.value.trim();
+    if (!v) {
+      input.classList.remove("invalid");
+      void input.offsetWidth;
+      input.classList.add("invalid");
+      input.focus();
+      return;
+    }
+    closeModal();
+    if (action) action(v);
+  } else {
+    closeModal();
+    if (action) action();
+  }
+}
+$("modalConfirm").addEventListener("click", tryConfirm);
+$("modalInput").addEventListener("keydown", (e) => { if (e.key === "Enter") tryConfirm(); });
+
+function addCategory() {
+  confirmDialog({
+    title: "添加分类",
+    body: "为新分类起个名字。",
+    confirmText: "添加",
+    input: true,
+    inputPlaceholder: "分类名称",
+    maxLength: 12,
+    onConfirm: (name) => {
+      const cat = { id: "u" + Date.now().toString(36), name };
+      state.cats.push(cat);
+      activeCat = cat.id;
+      save();
+      buildCatSelect();
+      buildTabs();
+      render();
+    },
+  });
+}
+
+function renameCategory(id) {
+  const cat = state.cats.find(c => c.id === id);
+  if (!cat) return;
+  confirmDialog({
+    title: "重命名分类",
+    confirmText: "保存",
+    input: true,
+    inputValue: cat.name,
+    inputPlaceholder: "分类名称",
+    maxLength: 12,
+    onConfirm: (name) => {
+      cat.name = name;
+      save();
+      buildCatSelect();
+      buildTabs();
+      render();
+    },
+  });
+}
+
+function askDeleteCategory(id) {
+  const cat = state.cats.find(c => c.id === id);
+  if (!cat) return;
+  const count = state.items.filter(i => i.cat === id).length;
+  confirmDialog({
+    title: "删除“" + cat.name + "”？",
+    body: "将同时删除其中 " + count + " 个条目。",
+    confirmText: "删除",
+    danger: true,
+    onConfirm: () => {
+      state.items.filter(i => i.cat === id).forEach(i => delete state.checked[i.id]);
+      state.cats = state.cats.filter(c => c.id !== id);
+      state.items = state.items.filter(i => i.cat !== id);
+      if (activeCat === id) activeCat = "all";
+      save();
+      buildCatSelect();
+      buildTabs();
+      render();
+    },
+  });
+}
+
+function uncheckAll() {
+  state.checked = {};
+  save();
+  render();
+}
+
+function doReset() {
+  state.trip = "";
+  state.date = "";
+  state.checked = {};
+  save();
+  $("tripName").value = "";
+  $("tripDate").value = "";
+  activeCat = "all";
+  buildTabs();
+  render();
+}
+
+function restoreTemplate() {
+  state.cats = cloneCats();
+  state.items = cloneItems();
+  state.checked = {};
+  activeCat = "all";
+  save();
+  buildCatSelect();
+  buildTabs();
+  render();
+}
+
+$("uncheckBtn").addEventListener("click", () => confirmDialog({
+  title: "一键取消全部勾选？",
+  body: "将取消所有勾选，清单内容保持不变，下次出行可直接复用。",
+  confirmText: "一键取消",
+  danger: false,
+  onConfirm: uncheckAll,
+}));
+
+$("resetBtn").addEventListener("click", () => confirmDialog({
+  title: "开始新旅程？",
+  body: "将清空勾选和行程信息，你的清单模板（分类与条目）会保留。",
+  confirmText: "重置",
+  danger: true,
+  onConfirm: doReset,
+}));
+
+$("restoreBtn").addEventListener("click", () => confirmDialog({
+  title: "恢复默认模板？",
+  body: "将恢复内置的分类和条目，当前模板修改和全部勾选会被清除，行程信息保留。",
+  confirmText: "恢复默认",
+  danger: true,
+  onConfirm: restoreTemplate,
+}));
+
+/* ---------- 启动 ---------- */
+buildCatSelect();
+buildTabs();
+$("tripName").value = state.trip;
+$("tripDate").value = state.date;
+render();
+</script>
+</body>
+</html>
